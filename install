@@ -1,0 +1,132 @@
+#!/bin/bash
+
+GREEN='\033[0;32m'
+RED="\033[0;31m"
+NC="\033[0m"
+
+function p_red() {
+  printf "\n${RED}$1${NC}\n"
+}
+
+function p_green() {
+  printf "\n${GREEN}$1${NC}\n"
+}
+
+function i_font() {
+  mkdir /tmp/$1
+  wget $2 -O "`echo /tmp/$1/$1`.zip"
+  unzip -o -j /tmp/$1/$1.zip
+  sudo mkdir /usr/share/fonts/truetype/$1
+  sudo cp -rf /tmp/$1/. /usr/share/fonts/truetype/$1/.
+  fc-cache -f -v
+}
+
+function install() {
+  p_red "Updating apt-get..."
+  sudo apt-get update
+
+  p_red "Installing curl..."
+  sudo apt-get install curl
+
+  p_red "Installing git..."
+  sudo apt-get install git
+  sudo apt-get install git-core bash-completion
+
+  p_red "Installing nodejs..."
+  sudo curl -sL https://deb.nodesource.com/setup_6.x | sudo -E bash -
+  sudo apt-get install -y nodejs
+
+  p_red "Installing nvm..."
+  sudo curl -o https://raw.githubusercontent.com/creationix/nvm/v0.33.2/install.sh | bash
+
+  p_red "Installing yarn..."
+  sudo npm install -g yarn
+
+  p_red "Installing mongodb..."
+  sudo apt-key adv --keyserver hkp://keyserver.ubuntu.com:80 --recv EA312927
+  echo "deb http://repo.mongodb.org/apt/ubuntu xenial/mongodb-org/3.2 multiverse" | sudo tee /etc/apt/sources.list.d/mongodb-org-3.2.list
+  sudo apt-get update
+  sudo apt-get install -y mongodb-org
+  echo "[Unit]" >> /etc/systemd/system/mongodb.service
+  echo "Description=High-performance, schema-free document-oriented database" >> /etc/systemd/system/mongodb.service
+  echo "After=network.target" >> /etc/systemd/system/mongodb.service
+  echo "" >> /etc/systemd/system/mongodb.service
+  echo "[Service]" >> /etc/systemd/system/mongodb.service
+  echo "User=mongodb" >> /etc/systemd/system/mongodb.service
+  echo "ExecStart=/usr/bin/mongod --quiet --config /etc/mongod.conf" >> /etc/systemd/system/mongodb.service
+  echo "" >> /etc/systemd/system/mongodb.service
+  echo "[Install]" >> /etc/systemd/system/mongodb.service
+  echo "WantedBy=multi-user.target" >> /etc/systemd/system/mongodb.service
+  sudo systemctl start mongodb
+  ps -ef | grep abc | grep -v grep
+  if [ $?  -eq "0" ]; then
+    sudo systemctl enable mongodb
+  fi
+
+  # p_red "Installing mongo-hacker..."
+  # git clone git@github.com:TylerBrock/mongo-hacker.git ~
+  # make -C ~/mongo-hacker
+
+  p_red "Instaling postgresql..."
+  sudo apt-get install postgresql postgresql-contrib
+
+  # p_red "Installing redis..."
+  # sudo apt-get install build-essential tcl
+  # sudo curl -fsSL -o /tmp/redis-stable.tar.gz http://download.redis.io/redis-stable.tar.gz
+  # tar xzvf /tmp/redis-stable.tar.gz -C /tmp/
+  # make -C /tmp/redis-stable
+
+  p_red "Installing sublime-text-3..."
+  sudo add-apt-repository ppa:webupd8team/sublime-text-3
+  sudo apt-get update
+  sudo apt-get install sublime-text-installer
+
+  p_red "Installing st3-package-control..."
+  sudo curl -fsSL -o '~/.config/sublime-text-3/Installed Packages/Package Control.sublime-package' https://packagecontrol.io/Package%20Control.sublime-package
+
+  p_red "Installing chrome..."
+  sudo wget -q -O - https://dl-ssl.google.com/linux/linux_signing_key.pub | sudo apt-key add -
+  sudo sh -c 'echo "deb http://dl.google.com/linux/chrome/deb/ stable main" >> /etc/apt/sources.list.d/google.list'
+  sudo apt-get update
+  sudo apt-get install google-chrome-stable -y
+
+  p_red "Installing unzip..."
+  sudo apt-get install unzip
+
+  p_red "Installing terminator..."
+  sudo add-apt-repository ppa:gnome-terminator
+  sudo apt-get update
+  sudo apt-get install terminator
+
+  p_red "Installing zsh..."
+  sudo apt-get install zsh
+
+  p_red "Installing oh-my-zsh..."
+  sudo sh -c "$(curl -fsSL https://raw.githubusercontent.com/robbyrussell/oh-my-zsh/master/tools/install.sh)"
+
+  p_red "Installing httpie..."
+  sudo apt-get install httpie
+
+  p_red "Installing fonts..."
+  p_red "> Hack"
+  i_font "Hack" "https://github.com/chrissimpkins/Hack/releases/download/v2.013/Hack-v2_013-ttf.zip"
+  p_red "> Source Code Pro"
+  i_font "SourceCodePro" "https://github.com/adobe-fonts/source-code-pro/archive/2.010R-ro/1.030R-it.zip"
+}
+
+function copyDotFiles() {
+  p_red "Copying dot files..."
+  cp zsh/.zshrc ~/
+  cp zsh/materialshell-oceanic.zsh-theme ~/.oh-my-zsh/themes
+  cp terminator/config ~/.config/terminator
+  cp git/.gitconfig ~/
+  cp 'st3/Package Control.sublime-settings' '~/.config/sublime-text-3/Packages/User/Package Control.sublime-settings'
+  cp 'st3/Base File.sublime-settings' '~/.config/sublime-text-3/Packages/User/Base File.sublime-settings'
+  cp st3/Preferences.sublime-settings ~/.config/sublime-text-3/Packages/User/Preferences.sublime-settings
+  cp st3/Emmet.sublime-settings ~/.config/sublime-text-3/Packages/User/Emmet.sublime-settings
+}
+
+install
+copyDotFiles
+
+p_green "Done!"

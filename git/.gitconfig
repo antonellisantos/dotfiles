@@ -1,0 +1,7 @@
+[push]
+  default = simple
+  followTags = true
+
+[user]
+	name = Antonelli Santos
+	email = antonelli2006@hotmail.com
