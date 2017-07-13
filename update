@@ -1,0 +1,29 @@
+#!/bin/bash
+
+GREEN='\033[0;32m'
+RED="\033[0;31m"
+NC="\033[0m"
+
+function p_red() {
+  printf "\n${RED}$1${NC}\n"
+}
+
+function p_green() {
+  printf "\n${GREEN}$1${NC}\n"
+}
+
+function update() {
+  p_red "Copying dot files..."
+  cp zsh/.zshrc ~/
+  cp zsh/materialshell-oceanic.zsh-theme ~/.oh-my-zsh/themes
+  cp terminator/config ~/.config/terminator
+  cp git/.gitconfig ~/
+  cp 'st3/Package Control.sublime-settings' '~/.config/sublime-text-3/Packages/User/Package Control.sublime-settings'
+  cp 'st3/Base File.sublime-settings' '~/.config/sublime-text-3/Packages/User/Base File.sublime-settings'
+  cp st3/Preferences.sublime-settings ~/.config/sublime-text-3/Packages/User/Preferences.sublime-settings
+  cp st3/Emmet.sublime-settings ~/.config/sublime-text-3/Packages/User/Emmet.sublime-settings
+}
+
+update
+
+p_green "Done!"

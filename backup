@@ -1,0 +1,29 @@
+#!/bin/bash
+
+GREEN='\033[0;32m'
+RED="\033[0;31m"
+NC="\033[0m"
+
+function p_red() {
+  printf "\n${RED}$1${NC}\n"
+}
+
+function p_green() {
+  printf "\n${GREEN}$1${NC}\n"
+}
+
+function backup() {
+  p_red "Backuping dot files..."
+  cp ~/.zshrc ${PWD}/zsh
+  cp ~/.oh-my-zsh/themes/materialshell-oceanic.zsh-theme ${PWD}/zsh
+  cp ~/.config/terminator/config ${PWD}/terminator
+  cp ~/.gitconfig ${PWD}/git
+  cp '~/.config/sublime-text-3/Packages/User/Package Control.sublime-settings' ${PWD}/st3
+  cp '~/.config/sublime-text-3/Packages/User/Base File.sublime-settings' ${PWD}/st3
+  cp ~/.config/sublime-text-3/Packages/User/Preferences.sublime-settings ${PWD}/st3
+  cp ~/.config/sublime-text-3/Packages/User/Emmet.sublime-settings ${PWD}/st3
+}
+
+backup
+
+p_green "Done!"

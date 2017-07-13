@@ -58,23 +58,36 @@ function install() {
   echo "[Install]" >> /etc/systemd/system/mongodb.service
   echo "WantedBy=multi-user.target" >> /etc/systemd/system/mongodb.service
   sudo systemctl start mongodb
-  ps -ef | grep abc | grep -v grep
-  if [ $?  -eq "0" ]; then
-    sudo systemctl enable mongodb
-  fi
+  sudo systemctl enable mongodb
 
-  # p_red "Installing mongo-hacker..."
-  # git clone git@github.com:TylerBrock/mongo-hacker.git ~
-  # make -C ~/mongo-hacker
+  p_red "Installing mongo-hacker..."
+  git clone git@github.com:TylerBrock/mongo-hacker.git /mongo-hacker
+  make -C /mongo-hacker
 
   p_red "Instaling postgresql..."
   sudo apt-get install postgresql postgresql-contrib
 
-  # p_red "Installing redis..."
-  # sudo apt-get install build-essential tcl
-  # sudo curl -fsSL -o /tmp/redis-stable.tar.gz http://download.redis.io/redis-stable.tar.gz
-  # tar xzvf /tmp/redis-stable.tar.gz -C /tmp/
-  # make -C /tmp/redis-stable
+  p_red "Installing redis..."
+  sudo apt-get install build-essential tcl
+  sudo curl -fsSL -o /tmp/redis-stable.tar.gz http://download.redis.io/redis-stable.tar.gz
+  sudo tar xzvf /tmp/redis-stable.tar.gz -C /tmp/
+  sudo make -C /tmp/redis-stable
+  sudo make test -C /tmp/redis-stable
+  sudo make install -C /tmp/redis-stable
+  sudo mkdir /etc/redis
+  sudo cp /tmp/redis-stable/redis.conf /etc/redis
+  sed -i 's/^supervised no/supervised systemd/g' /etc/redis/redis.conf
+  sed -i 's/^supervised upstart/supervised systemd/g' /etc/redis/redis.conf
+  sed -i 's/^supervised auto/supervised systemd/g' /etc/redis/redis.conf
+  N=$(awk '/^dir/{print NR}' /etc/redis/redis.conf)
+  sed -i '/^dir/a dir \/var\/lib\/redis/g' /etc/redis/redis.conf
+  sed -i "${N}d" /etc/redis/redis.conf
+  sudo adduser --system --group --no-create-home redis
+  sudo mkdir /var/lib/redis
+  sudo chown redis:redis /var/lib/redis
+  sudo chmod 770 /var/lib/redis
+  sudo systemctl start redis
+  sudo systemctl enable mongodb
 
   p_red "Installing sublime-text-3..."
   sudo add-apt-repository ppa:webupd8team/sublime-text-3
