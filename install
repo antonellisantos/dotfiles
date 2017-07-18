@@ -17,7 +17,7 @@ function p_green() {
 function i_font() {
   mkdir /tmp/$1
   wget $2 -O "`echo /tmp/$1/$1`.zip"
-  unzip -o -j /tmp/$1/$1.zip
+  unzip -o -j /tmp/$1/$1.zip -d /tmp/$1/
   sudo mkdir /usr/share/fonts/truetype/$1
   sudo cp -rf /tmp/$1/. /usr/share/fonts/truetype/$1/.
   fc-cache -f -v
@@ -39,7 +39,7 @@ function install() {
   sudo apt-get install -y nodejs
 
   p_red "Installing nvm..."
-  sudo curl -o https://raw.githubusercontent.com/creationix/nvm/v0.33.2/install.sh | bash
+  sudo curl -o- https://raw.githubusercontent.com/creationix/nvm/v0.33.2/install.sh | bash
 
   p_red "Installing yarn..."
   sudo npm install -g yarn
@@ -49,22 +49,24 @@ function install() {
   echo "deb http://repo.mongodb.org/apt/ubuntu xenial/mongodb-org/3.2 multiverse" | sudo tee /etc/apt/sources.list.d/mongodb-org-3.2.list
   sudo apt-get update
   sudo apt-get install -y mongodb-org
-  echo "[Unit]" >> /etc/systemd/system/mongodb.service
-  echo "Description=High-performance, schema-free document-oriented database" >> /etc/systemd/system/mongodb.service
-  echo "After=network.target" >> /etc/systemd/system/mongodb.service
-  echo "" >> /etc/systemd/system/mongodb.service
-  echo "[Service]" >> /etc/systemd/system/mongodb.service
-  echo "User=mongodb" >> /etc/systemd/system/mongodb.service
-  echo "ExecStart=/usr/bin/mongod --quiet --config /etc/mongod.conf" >> /etc/systemd/system/mongodb.service
-  echo "" >> /etc/systemd/system/mongodb.service
-  echo "[Install]" >> /etc/systemd/system/mongodb.service
-  echo "WantedBy=multi-user.target" >> /etc/systemd/system/mongodb.service
+  sudo chmod -R 777 /etc/systemd/system/
+  sudo echo "[Unit]" >> /etc/systemd/system/mongodb.service
+  sudo echo "Description=High-performance, schema-free document-oriented database" >> /etc/systemd/system/mongodb.service
+  sudo echo "After=network.target" >> /etc/systemd/system/mongodb.service
+  sudo echo "" >> /etc/systemd/system/mongodb.service
+  sudo echo "[Service]" >> /etc/systemd/system/mongodb.service
+  sudo echo "User=mongodb" >> /etc/systemd/system/mongodb.service
+  sudo echo "ExecStart=/usr/bin/mongod --quiet --config /etc/mongod.conf" >> /etc/systemd/system/mongodb.service
+  sudo echo "" >> /etc/systemd/system/mongodb.service
+  sudo echo "[Install]" >> /etc/systemd/system/mongodb.service
+  sudo echo "WantedBy=multi-user.target" >> /etc/systemd/system/mongodb.service
   sudo systemctl start mongodb
   sudo systemctl enable mongodb
 
   p_red "Installing mongo-hacker..."
-  git clone git@github.com:TylerBrock/mongo-hacker.git /mongo-hacker
-  make -C /mongo-hacker
+  sudo git clone https://github.com/TylerBrock/mongo-hacker.git /mongo-hacker
+  sudo make -C /mongo-hacker
+  sudo make install -C /mongo-hacker
 
   p_red "Instaling postgresql..."
   sudo apt-get install postgresql postgresql-contrib
@@ -78,12 +80,23 @@ function install() {
   sudo make install -C /tmp/redis-stable
   sudo mkdir /etc/redis
   sudo cp /tmp/redis-stable/redis.conf /etc/redis
-  sed -i 's/^supervised no/supervised systemd/g' /etc/redis/redis.conf
-  sed -i 's/^supervised upstart/supervised systemd/g' /etc/redis/redis.conf
-  sed -i 's/^supervised auto/supervised systemd/g' /etc/redis/redis.conf
-  N=$(awk '/^dir/{print NR}' /etc/redis/redis.conf)
-  sed -i '/^dir/a dir \/var\/lib\/redis/g' /etc/redis/redis.conf
-  sed -i "${N}d" /etc/redis/redis.conf
+  sudo sed -i 's/^supervised no/supervised systemd/g' /etc/redis/redis.conf
+  sudo sed -i 's/^supervised upstart/supervised systemd/g' /etc/redis/redis.conf
+  sudo sed -i 's/^supervised auto/supervised systemd/g' /etc/redis/redis.conf
+  N=$(sudo awk '/^dir/{print NR}' /etc/redis/redis.conf)
+  sudo sed -i '/^dir/a dir \/var\/lib\/redis/g' /etc/redis/redis.conf
+  sudo sed -i "${N}d" /etc/redis/redis.conf
+  sudo echo "[Unit]" >> /etc/systemd/system/mongodb.service
+  sudo echo "Description=Redis In-Memory Data Store" >> /etc/systemd/system/mongodb.service
+  sudo echo "After=network.target" >> /etc/systemd/system/mongodb.service
+  sudo echo "[Service]" >> /etc/systemd/system/mongodb.service
+  sudo echo "User=redis" >> /etc/systemd/system/mongodb.service
+  sudo echo "Group=redis" >> /etc/systemd/system/mongodb.service
+  sudo echo "ExecStart=/usr/local/bin/redis-server /etc/redis/redis.conf" >> /etc/systemd/system/mongodb.service
+  sudo echo "ExecStop=/usr/local/bin/redis-cli shutdown" >> /etc/systemd/system/mongodb.service
+  sudo echo "Restart=always" >> /etc/systemd/system/mongodb.service
+  sudo echo "[Install]" >> /etc/systemd/system/mongodb.service
+  sudo echo "WantedBy=multi-user.target" >> /etc/systemd/system/mongodb.service
   sudo adduser --system --group --no-create-home redis
   sudo mkdir /var/lib/redis
   sudo chown redis:redis /var/lib/redis
@@ -96,8 +109,8 @@ function install() {
   sudo apt-get update
   sudo apt-get install sublime-text-installer
 
-  p_red "Installing st3-package-control..."
-  sudo curl -fsSL -o '~/.config/sublime-text-3/Installed Packages/Package Control.sublime-package' https://packagecontrol.io/Package%20Control.sublime-package
+  # p_red "Installing st3-package-control..."
+  # sudo curl -fsSL -o '~/.config/sublime-text-3/Installed Packages/Package Control.sublime-package' https://packagecontrol.io/Package%20Control.sublime-package
 
   p_red "Installing chrome..."
   sudo wget -q -O - https://dl-ssl.google.com/linux/linux_signing_key.pub | sudo apt-key add -
@@ -113,35 +126,56 @@ function install() {
   sudo apt-get update
   sudo apt-get install terminator
 
-  p_red "Installing zsh..."
-  sudo apt-get install zsh
-
-  p_red "Installing oh-my-zsh..."
-  sudo sh -c "$(curl -fsSL https://raw.githubusercontent.com/robbyrussell/oh-my-zsh/master/tools/install.sh)"
-
   p_red "Installing httpie..."
   sudo apt-get install httpie
+
+  p_red "Installing postman..."
+  sudo curl -fsSL -o /tmp/postman.tar.gz 'https://dl.pstmn.io/download/latest/linux64'
+  sudo tar -xzf /tmp/postman.tar.gz -C /opt
+  sudo ln -s /opt/Postman/Postman /usr/bin/postman
+  cat > ~/.local/share/applications/postman.desktop <<EOL
+  [Desktop Entry]
+  Encoding=UTF-8
+  Name=Postman
+  Exec=postman
+  Icon=/opt/Postman/resources/app/assets/icon.png
+  Terminal=false
+  Type=Application
+  Categories=Development;
+EOL
 
   p_red "Installing fonts..."
   p_red "> Hack"
   i_font "Hack" "https://github.com/chrissimpkins/Hack/releases/download/v2.013/Hack-v2_013-ttf.zip"
   p_red "> Source Code Pro"
   i_font "SourceCodePro" "https://github.com/adobe-fonts/source-code-pro/archive/2.010R-ro/1.030R-it.zip"
+
+  p_red "Installing zsh..."
+  sudo apt-get install zsh
+  sudo chsh -s $(which zsh)
 }
 
 function copyDotFiles() {
   p_red "Copying dot files..."
   cp zsh/.zshrc ~/
   cp zsh/materialshell-oceanic.zsh-theme ~/.oh-my-zsh/themes
-  cp terminator/config ~/.config/terminator
+  mkdir ~/.config/terminator/
+  cp terminator/config ~/.config/terminator/config
   cp git/.gitconfig ~/
   cp 'st3/Package Control.sublime-settings' '~/.config/sublime-text-3/Packages/User/Package Control.sublime-settings'
   cp 'st3/Base File.sublime-settings' '~/.config/sublime-text-3/Packages/User/Base File.sublime-settings'
   cp st3/Preferences.sublime-settings ~/.config/sublime-text-3/Packages/User/Preferences.sublime-settings
   cp st3/Emmet.sublime-settings ~/.config/sublime-text-3/Packages/User/Emmet.sublime-settings
+  cp '/tmp/Package Control.sublime-package' '~/.config/sublime-text-3/Installed Packages/Package Control.sublime-package'
+}
+
+function omz() {
+  p_red "Installing oh-my-zsh..."
+  sudo sh -c "$(curl -fsSL https://raw.githubusercontent.com/robbyrussell/oh-my-zsh/master/tools/install.sh)"
 }
 
 install
 copyDotFiles
+omz
 
 p_green "Done!"
