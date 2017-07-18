@@ -162,11 +162,11 @@ function copyDotFiles() {
   mkdir ~/.config/terminator/
   cp terminator/config ~/.config/terminator/config
   cp git/.gitconfig ~/
-  cp 'st3/Package Control.sublime-settings' '~/.config/sublime-text-3/Packages/User/Package Control.sublime-settings'
-  cp 'st3/Base File.sublime-settings' '~/.config/sublime-text-3/Packages/User/Base File.sublime-settings'
-  cp st3/Preferences.sublime-settings ~/.config/sublime-text-3/Packages/User/Preferences.sublime-settings
-  cp st3/Emmet.sublime-settings ~/.config/sublime-text-3/Packages/User/Emmet.sublime-settings
-  cp '/tmp/Package Control.sublime-package' '~/.config/sublime-text-3/Installed Packages/Package Control.sublime-package'
+  # cp 'st3/Package Control.sublime-settings' '~/.config/sublime-text-3/Packages/User/Package Control.sublime-settings'
+  # cp 'st3/Base File.sublime-settings' '~/.config/sublime-text-3/Packages/User/Base File.sublime-settings'
+  # cp st3/Preferences.sublime-settings ~/.config/sublime-text-3/Packages/User/Preferences.sublime-settings
+  # cp st3/Emmet.sublime-settings ~/.config/sublime-text-3/Packages/User/Emmet.sublime-settings
+  # cp '/tmp/Package Control.sublime-package' '~/.config/sublime-text-3/Installed Packages/Package Control.sublime-package'
 }
 
 function omz() {
