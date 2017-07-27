@@ -14,7 +14,7 @@ function p_green() {
   printf "\n${GREEN}$1${NC}\n"
 }
 
-function i_font() {
+function i_fonts() {
   mkdir /tmp/$1
   wget $2 -O "`echo /tmp/$1/$1`.zip"
   unzip -o -j /tmp/$1/$1.zip -d /tmp/$1/
@@ -60,8 +60,8 @@ function install() {
   sudo echo "" >> /etc/systemd/system/mongodb.service
   sudo echo "[Install]" >> /etc/systemd/system/mongodb.service
   sudo echo "WantedBy=multi-user.target" >> /etc/systemd/system/mongodb.service
-  sudo systemctl start mongodb
-  sudo systemctl enable mongodb
+  # sudo systemctl start mongodb
+  # sudo systemctl enable mongodb
 
   p_red "Installing mongo-hacker..."
   sudo git clone https://github.com/TylerBrock/mongo-hacker.git /mongo-hacker
@@ -101,8 +101,8 @@ function install() {
   sudo mkdir /var/lib/redis
   sudo chown redis:redis /var/lib/redis
   sudo chmod 770 /var/lib/redis
-  sudo systemctl start redis
-  sudo systemctl enable mongodb
+  # sudo systemctl start redis
+  # sudo systemctl enable redis
 
   p_red "Installing sublime-text-3..."
   sudo add-apt-repository ppa:webupd8team/sublime-text-3
@@ -129,30 +129,30 @@ function install() {
   p_red "Installing httpie..."
   sudo apt-get install httpie
 
-  p_red "Installing postman..."
-  sudo curl -fsSL -o /tmp/postman.tar.gz 'https://dl.pstmn.io/download/latest/linux64'
-  sudo tar -xzf /tmp/postman.tar.gz -C /opt
-  sudo ln -s /opt/Postman/Postman /usr/bin/postman
-  cat > ~/.local/share/applications/postman.desktop <<EOL
-  [Desktop Entry]
-  Encoding=UTF-8
-  Name=Postman
-  Exec=postman
-  Icon=/opt/Postman/resources/app/assets/icon.png
-  Terminal=false
-  Type=Application
-  Categories=Development;
-EOL
+#   p_red "Installing postman..."
+#   sudo curl -fsSL -o /tmp/postman.tar.gz 'https://dl.pstmn.io/download/latest/linux64'
+#   sudo tar -xzf /tmp/postman.tar.gz -C /opt
+#   sudo ln -s /opt/Postman/Postman /usr/bin/postman
+#   cat > ~/.local/share/applications/postman.desktop <<EOL
+#   [Desktop Entry]
+#   Encoding=UTF-8
+#   Name=Postman
+#   Exec=postman
+#   Icon=/opt/Postman/resources/app/assets/icon.png
+#   Terminal=false
+#   Type=Application
+#   Categories=Development;
+# EOL
 
   p_red "Installing fonts..."
   p_red "> Hack"
-  i_font "Hack" "https://github.com/chrissimpkins/Hack/releases/download/v2.013/Hack-v2_013-ttf.zip"
+  i_fonts "Hack" "https://github.com/chrissimpkins/Hack/releases/download/v2.013/Hack-v2_013-ttf.zip"
   p_red "> Source Code Pro"
-  i_font "SourceCodePro" "https://github.com/adobe-fonts/source-code-pro/archive/2.010R-ro/1.030R-it.zip"
+  i_fonts "SourceCodePro" "https://github.com/adobe-fonts/source-code-pro/archive/2.010R-ro/1.030R-it.zip"
 
   p_red "Installing zsh..."
   sudo apt-get install zsh
-  sudo chsh -s $(which zsh)
+  chsh -s $(which zsh)
 }
 
 function copyDotFiles() {
