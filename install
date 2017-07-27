@@ -25,14 +25,14 @@ function i_fonts() {
 
 function install() {
   p_red "Updating apt-get..."
-  sudo apt-get update
+  sudo apt-get -y update
 
   p_red "Installing curl..."
-  sudo apt-get install curl
+  sudo apt-get install -y curl
 
   p_red "Installing git..."
-  sudo apt-get install git
-  sudo apt-get install git-core bash-completion
+  sudo apt-get install -y git
+  sudo apt-get install -y git-core bash-completion
 
   p_red "Installing nodejs..."
   sudo curl -sL https://deb.nodesource.com/setup_6.x | sudo -E bash -
@@ -60,8 +60,8 @@ function install() {
   sudo echo "" >> /etc/systemd/system/mongodb.service
   sudo echo "[Install]" >> /etc/systemd/system/mongodb.service
   sudo echo "WantedBy=multi-user.target" >> /etc/systemd/system/mongodb.service
-  # sudo systemctl start mongodb
-  # sudo systemctl enable mongodb
+  sudo systemctl start mongodb
+  sudo systemctl enable mongodb
 
   p_red "Installing mongo-hacker..."
   sudo git clone https://github.com/TylerBrock/mongo-hacker.git /mongo-hacker
@@ -72,7 +72,7 @@ function install() {
   sudo apt-get install postgresql postgresql-contrib
 
   p_red "Installing redis..."
-  sudo apt-get install build-essential tcl
+  sudo apt-get install -y build-essential tcl
   sudo curl -fsSL -o /tmp/redis-stable.tar.gz http://download.redis.io/redis-stable.tar.gz
   sudo tar xzvf /tmp/redis-stable.tar.gz -C /tmp/
   sudo make -C /tmp/redis-stable
@@ -86,63 +86,63 @@ function install() {
   N=$(sudo awk '/^dir/{print NR}' /etc/redis/redis.conf)
   sudo sed -i '/^dir/a dir \/var\/lib\/redis/g' /etc/redis/redis.conf
   sudo sed -i "${N}d" /etc/redis/redis.conf
-  sudo echo "[Unit]" >> /etc/systemd/system/mongodb.service
-  sudo echo "Description=Redis In-Memory Data Store" >> /etc/systemd/system/mongodb.service
-  sudo echo "After=network.target" >> /etc/systemd/system/mongodb.service
-  sudo echo "[Service]" >> /etc/systemd/system/mongodb.service
-  sudo echo "User=redis" >> /etc/systemd/system/mongodb.service
-  sudo echo "Group=redis" >> /etc/systemd/system/mongodb.service
-  sudo echo "ExecStart=/usr/local/bin/redis-server /etc/redis/redis.conf" >> /etc/systemd/system/mongodb.service
-  sudo echo "ExecStop=/usr/local/bin/redis-cli shutdown" >> /etc/systemd/system/mongodb.service
-  sudo echo "Restart=always" >> /etc/systemd/system/mongodb.service
-  sudo echo "[Install]" >> /etc/systemd/system/mongodb.service
-  sudo echo "WantedBy=multi-user.target" >> /etc/systemd/system/mongodb.service
+  sudo echo "[Unit]" >> /etc/systemd/system/redis.service
+  sudo echo "Description=Redis In-Memory Data Store" >> /etc/systemd/system/redis.service
+  sudo echo "After=network.target" >> /etc/systemd/system/redis.service
+  sudo echo "" >> /etc/systemd/system/redis.service
+  sudo echo "[Service]" >> /etc/systemd/system/redis.service
+  sudo echo "User=redis" >> /etc/systemd/system/redis.service
+  sudo echo "Group=redis" >> /etc/systemd/system/redis.service
+  sudo echo "ExecStart=/usr/local/bin/redis-server /etc/redis/redis.conf" >> /etc/systemd/system/redis.service
+  sudo echo "ExecStop=/usr/local/bin/redis-cli shutdown" >> /etc/systemd/system/redis.service
+  sudo echo "Restart=always" >> /etc/systemd/system/redis.service
+  sudo echo "" >> /etc/systemd/system/redis.service
+  sudo echo "[Install]" >> /etc/systemd/system/redis.service
+  sudo echo "WantedBy=multi-user.target" >> /etc/systemd/system/redis.service
   sudo adduser --system --group --no-create-home redis
   sudo mkdir /var/lib/redis
   sudo chown redis:redis /var/lib/redis
   sudo chmod 770 /var/lib/redis
-  # sudo systemctl start redis
-  # sudo systemctl enable redis
+  sudo systemctl start redis
+  sudo systemctl enable redis
 
   p_red "Installing sublime-text-3..."
   sudo add-apt-repository ppa:webupd8team/sublime-text-3
   sudo apt-get update
-  sudo apt-get install sublime-text-installer
+  sudo apt-get install -y sublime-text-installer
 
-  # p_red "Installing st3-package-control..."
-  # sudo curl -fsSL -o '~/.config/sublime-text-3/Installed Packages/Package Control.sublime-package' https://packagecontrol.io/Package%20Control.sublime-package
+  p_red "Installing st3-package-control..."
+  sudo curl -fsSL -o ~/.config/sublime-text-3/Installed\ Packages/Package\ Control.sublime-package https://packagecontrol.io/Package%20Control.sublime-package
 
   p_red "Installing chrome..."
   sudo wget -q -O - https://dl-ssl.google.com/linux/linux_signing_key.pub | sudo apt-key add -
   sudo sh -c 'echo "deb http://dl.google.com/linux/chrome/deb/ stable main" >> /etc/apt/sources.list.d/google.list'
-  sudo apt-get update
-  sudo apt-get install google-chrome-stable -y
+  sudo apt-get -y update
+  sudo apt-get install -y google-chrome-stable
 
   p_red "Installing unzip..."
   sudo apt-get install unzip
 
   p_red "Installing terminator..."
   sudo add-apt-repository ppa:gnome-terminator
-  sudo apt-get update
-  sudo apt-get install terminator
+  sudo apt-get -y update
+  sudo apt-get install -y terminator
 
   p_red "Installing httpie..."
-  sudo apt-get install httpie
+  sudo apt-get install -y httpie
 
-#   p_red "Installing postman..."
-#   sudo curl -fsSL -o /tmp/postman.tar.gz 'https://dl.pstmn.io/download/latest/linux64'
-#   sudo tar -xzf /tmp/postman.tar.gz -C /opt
-#   sudo ln -s /opt/Postman/Postman /usr/bin/postman
-#   cat > ~/.local/share/applications/postman.desktop <<EOL
-#   [Desktop Entry]
-#   Encoding=UTF-8
-#   Name=Postman
-#   Exec=postman
-#   Icon=/opt/Postman/resources/app/assets/icon.png
-#   Terminal=false
-#   Type=Application
-#   Categories=Development;
-# EOL
+  p_red "Installing postman..."
+  sudo curl -fsSL -o /tmp/postman.tar.gz 'https://dl.pstmn.io/download/latest/linux64'
+  sudo tar -xzf /tmp/postman.tar.gz -C /opt
+  sudo ln -s /opt/Postman/Postman /usr/bin/postman
+  sudo echo "[Desktop Entry]" >> ~/.local/share/applications/postman.desktop
+  sudo echo "Encoding=UTF-8" >> ~/.local/share/applications/postman.desktop
+  sudo echo "Name=Postman" >> ~/.local/share/applications/postman.desktop
+  sudo echo "Exec=postman" >> ~/.local/share/applications/postman.desktop
+  sudo echo "Icon=/opt/Postman/resources/app/assets/icon.png" >> ~/.local/share/applications/postman.desktop
+  sudo echo "Terminal=false" >> ~/.local/share/applications/postman.desktop
+  sudo echo "Type=Application" >> ~/.local/share/applications/postman.desktop
+  sudo echo "Categories=Development;" >> ~/.local/share/applications/postman.desktop
 
   p_red "Installing fonts..."
   p_red "> Hack"
@@ -151,8 +151,11 @@ function install() {
   i_fonts "SourceCodePro" "https://github.com/adobe-fonts/source-code-pro/archive/2.010R-ro/1.030R-it.zip"
 
   p_red "Installing zsh..."
-  sudo apt-get install zsh
+  sudo apt-get install -y zsh
   chsh -s $(which zsh)
+
+  p_red "Installing oh-my-zsh..."
+  sudo sh -c "$(curl -fsSL https://raw.githubusercontent.com/robbyrussell/oh-my-zsh/master/tools/install.sh)"
 }
 
 function copyDotFiles() {
@@ -162,20 +165,13 @@ function copyDotFiles() {
   mkdir ~/.config/terminator/
   cp terminator/config ~/.config/terminator/config
   cp git/.gitconfig ~/
-  # cp 'st3/Package Control.sublime-settings' '~/.config/sublime-text-3/Packages/User/Package Control.sublime-settings'
-  # cp 'st3/Base File.sublime-settings' '~/.config/sublime-text-3/Packages/User/Base File.sublime-settings'
-  # cp st3/Preferences.sublime-settings ~/.config/sublime-text-3/Packages/User/Preferences.sublime-settings
-  # cp st3/Emmet.sublime-settings ~/.config/sublime-text-3/Packages/User/Emmet.sublime-settings
-  # cp '/tmp/Package Control.sublime-package' '~/.config/sublime-text-3/Installed Packages/Package Control.sublime-package'
-}
-
-function omz() {
-  p_red "Installing oh-my-zsh..."
-  sudo sh -c "$(curl -fsSL https://raw.githubusercontent.com/robbyrussell/oh-my-zsh/master/tools/install.sh)"
+  cp st3/Package\ Control.sublime-settings ~/.config/sublime-text-3/Packages/User/Package\ Control.sublime-settings
+  cp st3/Base\ File.sublime-settings ~/.config/sublime-text-3/Packages/User/Base\ File.sublime-settings
+  cp st3/Preferences.sublime-settings ~/.config/sublime-text-3/Packages/User/Preferences.sublime-settings
+  cp st3/Emmet.sublime-settings ~/.config/sublime-text-3/Packages/User/Emmet.sublime-settings
 }
 
 install
 copyDotFiles
-omz
 
 p_green "Done!"
