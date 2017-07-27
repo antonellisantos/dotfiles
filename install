@@ -69,7 +69,7 @@ function install() {
   sudo make install -C /mongo-hacker
 
   p_red "Instaling postgresql..."
-  sudo apt-get install postgresql postgresql-contrib
+  sudo apt-get install -y postgresql postgresql-contrib
 
   p_red "Installing redis..."
   sudo apt-get install -y build-essential tcl
@@ -112,7 +112,9 @@ function install() {
   sudo apt-get install -y sublime-text-installer
 
   p_red "Installing st3-package-control..."
-  sudo curl -fsSL -o ~/.config/sublime-text-3/Installed\ Packages/Package\ Control.sublime-package https://packagecontrol.io/Package%20Control.sublime-package
+  cd ~/.config/sublime-text-3/Installed\ Packages/
+  wget https://packagecontrol.io/Package%20Control.sublime-package
+  cd
 
   p_red "Installing chrome..."
   sudo wget -q -O - https://dl-ssl.google.com/linux/linux_signing_key.pub | sudo apt-key add -
