@@ -112,11 +112,6 @@ function install() {
   sudo apt-get install -y sublime-text-installer
   subl
 
-  p_red "Installing st3-package-control..."
-  cd ~/.config/sublime-text-3/Installed\ Packages/
-  wget https://packagecontrol.io/Package%20Control.sublime-package
-  cd
-
   p_red "Installing chrome..."
   sudo wget -q -O - https://dl-ssl.google.com/linux/linux_signing_key.pub | sudo apt-key add -
   sudo sh -c 'echo "deb http://dl.google.com/linux/chrome/deb/ stable main" >> /etc/apt/sources.list.d/google.list'
