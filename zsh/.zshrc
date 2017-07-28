@@ -1,4 +1,4 @@
-export ZSH=/home/antonellisantos/.oh-my-zsh
+export ZSH=/home/USER/.oh-my-zsh
 ZSH_THEME="materialshell-oceanic"
 
 plugins=(git npm sublime httpie yarn)
