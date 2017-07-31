@@ -25,7 +25,6 @@ function customize() {
   sed -i "s/USER/${USER}/" zsh/.zshrc
   cp zsh/.zshrc ~/
   cp zsh/materialshell-oceanic.zsh-theme ~/.oh-my-zsh/themes
-  zsh
 
   p_red "Customizing terminator..."
   mkdir ~/.config/terminator/
@@ -59,11 +58,12 @@ if [ "$USER" = "root" ]; then
   read -p "You are logged as root, do you wanna continue? [y/n] " cont
   if [ "$cont" = "y" ]; then
     customize
+    zsh
+  else
+    exit
   fi
 else
-  exit
+  customize
 fi
-
-exit
 
 p_green "[CUSTOMIZE]: Done!"
