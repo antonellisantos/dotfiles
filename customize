@@ -16,9 +16,16 @@ function p_green() {
 
 function customize() {
   p_red "Customizing omz..."
+  TEST_CURRENT_SHELL=$(expr "$SHELL" : '.*/\(.*\)')
+  if [ "$TEST_CURRENT_SHELL" != "zsh" ]; then
+    if hash chsh >/dev/null 2>&1; then
+      chsh -s $(grep /zsh$ /etc/shells | tail -1)
+    fi
+  fi
   sed -i "s/USER/${USER}/" zsh/.zshrc
   cp zsh/.zshrc ~/
   cp zsh/materialshell-oceanic.zsh-theme ~/.oh-my-zsh/themes
+  zsh
 
   p_red "Customizing terminator..."
   mkdir ~/.config/terminator/
@@ -35,6 +42,17 @@ function customize() {
   cd ~/.config/sublime-text-3/Installed\ Packages/
   wget https://packagecontrol.io/Package%20Control.sublime-package
   cd
+
+  p_red "Customizing desktop folder..."
+  mv Área\ de\ Trabalho/ Desktop/
+  sed -i "s/Área de Trabalho/Desktop/" ~/.config/user-dirs.dirs
+
+  p_red "Customizing nginx..."
+  sed -i "s/USER/${USER}/" nginx/NGINX
+  mkdir ~/Desktop/NGINX/
+  cp nginx/NGINX /etc/nginx/sites-enabled/NGINX
+  sudo service nginx stop
+  sudo service nginx start
 }
 
 customize

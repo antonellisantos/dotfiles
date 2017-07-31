@@ -71,6 +71,12 @@ function install() {
   p_red "Instaling postgresql..."
   sudo apt-get install -y postgresql postgresql-contrib
 
+  p_red "Installing nginx..."
+  sudo apt-get install -y nginx
+  sudo ufw allow 'Nginx HTTP'
+  sudo systemctl start nginx
+  sudo systemctl enable nginx
+
   p_red "Installing redis..."
   sudo apt-get install -y build-essential tcl
   sudo curl -fsSL -o /tmp/redis-stable.tar.gz http://download.redis.io/redis-stable.tar.gz
@@ -133,14 +139,6 @@ function install() {
   sudo curl -fsSL -o /tmp/postman.tar.gz 'https://dl.pstmn.io/download/latest/linux64'
   sudo tar -xzf /tmp/postman.tar.gz -C /opt
   sudo ln -s /opt/Postman/Postman /usr/bin/postman
-  sudo echo "[Desktop Entry]" >> ~/.local/share/applications/postman.desktop
-  sudo echo "Encoding=UTF-8" >> ~/.local/share/applications/postman.desktop
-  sudo echo "Name=Postman" >> ~/.local/share/applications/postman.desktop
-  sudo echo "Exec=postman" >> ~/.local/share/applications/postman.desktop
-  sudo echo "Icon=/opt/Postman/resources/app/assets/icon.png" >> ~/.local/share/applications/postman.desktop
-  sudo echo "Terminal=false" >> ~/.local/share/applications/postman.desktop
-  sudo echo "Type=Application" >> ~/.local/share/applications/postman.desktop
-  sudo echo "Categories=Development;" >> ~/.local/share/applications/postman.desktop
 
   p_red "Installing fonts..."
   p_red "> Hack"
@@ -150,9 +148,9 @@ function install() {
 
   p_red "Installing zsh..."
   sudo apt-get install -y zsh
-  chsh -s $(which zsh)
 
   p_red "Installing oh-my-zsh..."
+  cd
   sudo sh -c "$(curl -fsSL https://raw.githubusercontent.com/robbyrussell/oh-my-zsh/master/tools/install.sh)"
 }
 
