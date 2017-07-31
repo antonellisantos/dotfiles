@@ -55,6 +55,15 @@ function customize() {
   sudo service nginx start
 }
 
-customize
+if [ "$USER" = "root" ]; then
+  read -p "You are logged as root, do you wanna continue? [y/n] " cont
+  if [ "$cont" = "y" ]; then
+    customize
+  fi
+else
+  exit
+fi
+
+exit
 
 p_green "[CUSTOMIZE]: Done!"
