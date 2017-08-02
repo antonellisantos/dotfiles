@@ -28,4 +28,4 @@ function update() {
 
 update
 
-p_green "Done!"
+p_green "[UPDATE] Done!"

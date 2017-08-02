@@ -28,4 +28,4 @@ function backup() {
 
 backup
 
-p_green "Done!"
+p_green "[BACKUP] Done!"
