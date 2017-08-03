@@ -25,26 +25,26 @@ function customize() {
   sed -i "s/USER/${USER}/" zsh/.zshrc
   cp zsh/.zshrc ~/
   cp zsh/materialshell-oceanic.zsh-theme ~/.oh-my-zsh/themes
-  p_green "[CUSTOMIZE] Oh-my-zsh: DONE!"
+  p_green "[CUSTOMIZE] Oh-my-zsh: DONE\!"
 
   p_red "[CUSTOMIZE] Terminator"
   mkdir ~/.config/terminator/
   cp terminator/config ~/.config/terminator/config
-  p_green "[CUSTOMIZE] Terminator: DONE!"
+  p_green "[CUSTOMIZE] Terminator: DONE\!"
 
   p_red "[CUSTOMIZE] Git"
   cp git/.gitconfig ~/
   if [ $# -ge 2 ] && [ ! -z "$1" ] && [ ! -z "$2" ]; then
     ssh-keygen -t rsa -b 4096 -C "$1" -N "$2" -f ~/.ssh/id_rsa -q
     ssh-add ~/.ssh/id_rsa.pub
-    p_red "[CUSTOMIZE] Git: Now you've to copy the text in the openned file and paste in your Github!"
+    p_red "[CUSTOMIZE] Git: Now you've to copy the text in the openned file and paste in your Github\!"
     if ! subl_loc="$(type -p "$subl")" || [ -z "$subl_loc" ]; then
       gedit ~/.ssh/id_rsa
     else
       subl ~/.ssh/id_rsa
     fi
   fi
-  p_green "[CUSTOMIZE] Git: DONE!"
+  p_green "[CUSTOMIZE] Git: DONE\!"
 
   p_red "[CUSTOMIZE] NGINX"
   sed -i "s/USER/${USER}/" nginx/NGINX
@@ -52,7 +52,7 @@ function customize() {
   sudo cp nginx/NGINX /etc/nginx/sites-enabled/NGINX
   sudo service nginx stop
   sudo service nginx start
-  p_green "[CUSTOMIZE] NGINX: DONE!"
+  p_green "[CUSTOMIZE] NGINX: DONE\!"
 
   p_red "[CUSTOMIZE] Sublime Text 3"
   cp st3/Package\ Control.sublime-settings ~/.config/sublime-text-3/Packages/User/Package\ Control.sublime-settings
@@ -63,12 +63,12 @@ function customize() {
   cd ~/.config/sublime-text-3/Installed\ Packages/
   wget https://packagecontrol.io/Package%20Control.sublime-package
   cd
-  p_green "[CUSTOMIZE] Sublime Text 3: DONE!"
+  p_green "[CUSTOMIZE] Sublime Text 3: DONE\!"
 
   p_red "[CUSTOMIZE] Desktop Folder"
   mv Área\ de\ Trabalho/ Desktop/
   sed -i "s/Área de Trabalho/Desktop/" ~/.config/user-dirs.dirs
-  p_green "[CUSTOMIZE] Desktop Folder: DONE!"
+  p_green "[CUSTOMIZE] Desktop Folder: DONE\!"
 }
 
 read -p "You are logged as ${USER}, do you wanna continue? [y/n] " cont

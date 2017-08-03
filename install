@@ -21,29 +21,35 @@ function i_fonts() {
 function install() {
   p_red "[UPDATE] APT-GET"
   sudo apt-get -y update
-  p_green "[UPDATE] APT-GET: DONE!"
+  p_green "[UPDATE] APT-GET: DONE\!"
 
   p_red "[INSTALL] Curl"
   sudo apt-get install -y curl
-  p_green "[INSTALL] Curl: DONE!"
+  p_green "[INSTALL] Curl: DONE\!"
 
   p_red "[INSTALL] Git"
   sudo apt-get install -y git
   sudo apt-get install -y git-core bash-completion
-  p_green "[INSTALL] Git: DONE!"
-
-  p_red "[INSTALL] NodeJS"
-  sudo curl -sL https://deb.nodesource.com/setup_6.x | sudo -E bash -
-  sudo apt-get install -y nodejs
-  p_green "[INSTALL] NodeJS: DONE!"
+  p_green "[INSTALL] Git: DONE\!"
 
   p_red "[INSTALL] NVM"
   sudo curl -o- https://raw.githubusercontent.com/creationix/nvm/v0.33.2/install.sh | bash
-  p_green "[INSTALL] NVM: DONE!"
+  p_green "[INSTALL] NVM: DONE\!"
+
+  p_red "[INSTALL] NodeJS"
+  # sudo curl -sL https://deb.nodesource.com/setup_6.x | sudo -E bash -
+  # sudo apt-get install -y nodejs
+  nvm install 0.10
+  nvm alias old 0.10
+  nvm install stable
+  nvm alias default stable
+  nvm use default
+  p_green "[INSTALL] NodeJS: Using ${$(nvm current)//v}\!"
+  p_green "[INSTALL] NodeJS: DONE\!"
 
   p_red "[INSTALL] Yarn"
   sudo npm install -g yarn
-  p_green "[INSTALL] Yarn: DONE!"
+  p_green "[INSTALL] Yarn: DONE\!"
 
   p_red "[INSTALL] MongoDB"
   sudo apt-key adv --keyserver hkp://keyserver.ubuntu.com:80 --recv EA312927
@@ -63,24 +69,24 @@ function install() {
   sudo echo "WantedBy=multi-user.target" >> /etc/systemd/system/mongodb.service
   sudo systemctl start mongodb
   sudo systemctl enable mongodb
-  p_green "[INSTALL] MongoDB: DONE!"
+  p_green "[INSTALL] MongoDB: DONE\!"
 
   p_red "[INSTALL] Mongo-Hacker"
   sudo git clone https://github.com/TylerBrock/mongo-hacker.git /mongo-hacker
   sudo make -C /mongo-hacker
   sudo make install -C /mongo-hacker
-  p_green "[INSTALL] Mongo-Hacker: DONE!"
+  p_green "[INSTALL] Mongo-Hacker: DONE\!"
 
   p_red "[INSTALL] PostgreSQL"
   sudo apt-get install -y postgresql postgresql-contrib
-  p_green "[INSTALL] PostgreSQL: DONE!"
+  p_green "[INSTALL] PostgreSQL: DONE\!"
 
   p_red "[INSTALL] NGINX"
   sudo apt-get install -y nginx
   sudo ufw allow 'Nginx HTTP'
   sudo systemctl start nginx
   sudo systemctl enable nginx
-  p_green "[INSTALL] NGINX: DONE!"
+  p_green "[INSTALL] NGINX: DONE\!"
 
   p_red "[INSTALL] REDIS"
   sudo apt-get install -y build-essential tcl
@@ -116,59 +122,59 @@ function install() {
   sudo chmod 770 /var/lib/redis
   sudo systemctl start redis
   sudo systemctl enable redis
-  p_green "[INSTALL] REDIS: DONE!"
+  p_green "[INSTALL] REDIS: DONE\!"
 
   p_red "[INSTALL] Sublime Text 3"
   sudo add-apt-repository ppa:webupd8team/sublime-text-3
   sudo apt-get update
   sudo apt-get install -y sublime-text-installer
   subl
-  p_green "[INSTALL] Sublime Text 3: DONE!"
+  p_green "[INSTALL] Sublime Text 3: DONE\!"
 
   p_red "[INSTALL] Google Chrome"
   sudo wget -q -O - https://dl-ssl.google.com/linux/linux_signing_key.pub | sudo apt-key add -
   sudo sh -c 'echo "deb http://dl.google.com/linux/chrome/deb/ stable main" >> /etc/apt/sources.list.d/google.list'
   sudo apt-get -y update
   sudo apt-get install -y google-chrome-stable
-  p_green "[INSTALL] Google Chrome: DONE!"
+  p_green "[INSTALL] Google Chrome: DONE\!"
 
   p_red "[INSTALL] Unzip"
   sudo apt-get install unzip
-  p_green "[INSTALL] Unzip: DONE!"
+  p_green "[INSTALL] Unzip: DONE\!"
 
   p_red "[INSTALL] Terminator"
   sudo add-apt-repository ppa:gnome-terminator
   sudo apt-get -y update
   sudo apt-get install -y terminator
-  p_green "[INSTALL] Terminator: DONE!"
+  p_green "[INSTALL] Terminator: DONE\!"
 
   p_red "[INSTALL] Httpie"
   sudo apt-get install -y httpie
-  p_green "[INSTALL] Httpie: DONE!"
+  p_green "[INSTALL] Httpie: DONE\!"
 
   p_red "[INSTALL] Postman"
   sudo curl -fsSL -o /tmp/postman.tar.gz 'https://dl.pstmn.io/download/latest/linux64'
   sudo tar -xzf /tmp/postman.tar.gz -C /opt
   sudo ln -s /opt/Postman/Postman /usr/bin/postman
-  p_green "[INSTALL] Postman: DONE!"
+  p_green "[INSTALL] Postman: DONE\!"
 
   p_red "[INSTALL] Fonts"
   p_red "> Hack"
-  p_green "> Hack DONE!"
+  p_green "> Hack DONE\!"
   i_fonts "Hack" "https://github.com/chrissimpkins/Hack/releases/download/v2.013/Hack-v2_013-ttf.zip"
   p_red "> Source Code Pro"
-  p_green "> Source Code Pro DONE!"
+  p_green "> Source Code Pro DONE\!"
   i_fonts "SourceCodePro" "https://github.com/adobe-fonts/source-code-pro/archive/2.010R-ro/1.030R-it.zip"
-  p_green "[INSTALL] Fonts: DONE!"
+  p_green "[INSTALL] Fonts: DONE\!"
 
   p_red "[INSTALL] ZSH"
   sudo apt-get install -y zsh
-  p_green "[INSTALL] ZSH: DONE!"
+  p_green "[INSTALL] ZSH: DONE\!"
 
   p_red "[INSTALL] Oh-my-zsh"
   cd
   sh -c "$(curl -fsSL https://raw.githubusercontent.com/robbyrussell/oh-my-zsh/master/tools/install.sh)"
-  p_green "[INSTALL] Oh-my-zsh: DONE!"
+  p_green "[INSTALL] Oh-my-zsh: DONE\!"
 }
 
 install
