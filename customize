@@ -54,6 +54,11 @@ function customize() {
   sudo service nginx start
   p_green "[CUSTOMIZE] NGINX: DONE\!"
 
+  p_red "[CUSTOMIZE] PHP"
+  sudo sed -i "s/;cgi.fix_pathinfo=1/cgi.fix_pathinfo=0/" /etc/php/7.0/fpm/php.ini
+  sudo systemctl restart php7.0-fpm
+  p_green "[CUSTOMIZE] PHP: DONE\!"
+
   p_red "[CUSTOMIZE] Sublime Text 3"
   cp st3/Package\ Control.sublime-settings ~/.config/sublime-text-3/Packages/User/Package\ Control.sublime-settings
   cp st3/Base\ File.sublime-settings ~/.config/sublime-text-3/Packages/User/Base\ File.sublime-settings

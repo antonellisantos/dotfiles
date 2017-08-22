@@ -124,6 +124,14 @@ function install() {
   sudo systemctl enable redis
   p_green "[INSTALL] REDIS: DONE\!"
 
+  p_red "[INSTALL] MySQL"
+  sudo apt-get install mysql-server
+  p_green "[INSTALL] MySQL: DONE\!"
+
+  p_red "[INSTALL] PHP"
+  sudo apt-get install -y php-fpm php-mysql
+  p_green "[INSTALL] PHP: DONE\!"
+
   p_red "[INSTALL] Sublime Text 3"
   sudo add-apt-repository ppa:webupd8team/sublime-text-3
   sudo apt-get update
