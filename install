@@ -3,10 +3,14 @@
 # Inspired by https://github.com/thiagommedeiros/dotfiles
 
 RED="\033[0;31m"
+GREEN='\033[0;32m'
 NC="\033[0m"
 
 function p_red() {
   printf "\n${RED}$1${NC}\n"
+}
+function p_green() {
+  printf "\n${GREEN}$1${NC}\n"
 }
 
 function i_fonts() {
@@ -138,6 +142,14 @@ function install() {
   sudo apt-get install -y sublime-text-installer
   subl
   p_green "[INSTALL] Sublime Text 3: DONE\!"
+
+  p_green "[INSTALL] VS Code"
+  curl https://packages.microsoft.com/keys/microsoft.asc | gpg --dearmor > microsoft.gpg
+  sudo mv microsoft.gpg /etc/apt/trusted.gpg.d/microsoft.gpg
+  sudo sh -c 'echo "deb [arch=amd64] https://packages.microsoft.com/repos/vscode stable main" > /etc/apt/sources.list.d/vscode.list'
+  sudo apt-get update
+  sudo apt-get install code
+  p_green "[INSTALL] VS Code: DONE\!"
 
   p_red "[INSTALL] Google Chrome"
   sudo wget -q -O - https://dl-ssl.google.com/linux/linux_signing_key.pub | sudo apt-key add -

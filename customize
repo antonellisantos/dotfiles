@@ -70,6 +70,30 @@ function customize() {
   cd
   p_green "[CUSTOMIZE] Sublime Text 3: DONE\!"
 
+  p_red "[CUSTOMIZE] VS Code"
+  code --install-extension formulahendry.code-runner
+  code --install-extension ms-vscode.sublime-keybindings
+  code --install-extension christian-kohler.npm-intellisense
+  code --install-extension Zignd.html-css-class-completion
+  code --install-extension christian-kohler.path-intellisense
+  code --install-extension eg2.vscode-npm-script
+  code --install-extension dbaeumer.vscode-eslint
+  code --install-extension DavidAnson.vscode-markdownlint
+  code --install-extension HookyQR.beautify
+  code --install-extension octref.vetur
+  code --install-extension hollowtree.vue-snippets
+  code --install-extension xabikos.javascriptsnippets
+  code --install-extension abusaidm.html-snippets
+  code --install-extension pranaygp.vscode-css-peek
+  code --install-extension bierner.color-info
+  code --install-extension cssho.vscode-svgviewer
+  code --install-extension wmaurer.change-case
+  code --install-extension Equinusocio.vsc-material-theme
+  code --install-extension PKief.material-icon-theme
+  code --install-extension shakram02.bash-beautify
+  sudo cp vscode/settings.js cd ~/.config/Code/User/settings.js
+  p_green "[CUSTOMIZE] VS Code: DONE\!"
+
   p_red "[CUSTOMIZE] Desktop Folder"
   mv Área\ de\ Trabalho/ Desktop/
   sed -i "s/Área de Trabalho/Desktop/" ~/.config/user-dirs.dirs

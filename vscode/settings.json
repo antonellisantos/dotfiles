@@ -1,0 +1,11 @@
+{
+    "workbench.colorTheme": "Material Theme",
+    "materialTheme.cache.workbench.settings": {
+        "themeColours": "Default"
+    },
+    "workbench.iconTheme": "material-icon-theme",
+    "editor.fontFamily": "'Hack'",
+    "files.autoSave": "onFocusChange",
+    "editor.fontSize": 12,
+    "editor.tabSize": 2
+}
