@@ -2,13 +2,14 @@
 
 # Inspired by https://github.com/thiagommedeiros/dotfiles
 
-RED="\033[0;31m"
-GREEN='\033[0;32m'
+YELLOW="\033[1;33m"
+GREEN='\033[1;32m'
 NC="\033[0m"
 
-function p_red() {
-  printf "\n${RED}$1${NC}\n"
+function p_yellow() {
+  printf "\n${YELLOW}$1${NC}\n"
 }
+
 function p_green() {
   printf "\n${GREEN}$1${NC}\n"
 }
