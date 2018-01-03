@@ -15,7 +15,7 @@ function p_green() {
 }
 
 function customize() {
-  p_red "[CUSTOMIZE] Oh-my-zsh"
+  p_yellow "[CUSTOMIZE] Oh-my-zsh"
   TEST_CURRENT_SHELL=$(expr "$SHELL" : '.*/\(.*\)')
   if [ "$TEST_CURRENT_SHELL" != "zsh" ]; then
     if hash chsh >/dev/null 2>&1; then
@@ -27,17 +27,27 @@ function customize() {
   cp zsh/materialshell-oceanic.zsh-theme ~/.oh-my-zsh/themes
   p_green "[CUSTOMIZE] Oh-my-zsh: DONE\!"
 
-  p_red "[CUSTOMIZE] Terminator"
+  read -p "Do you wanna continue? [y/n] " cont
+  if [ "$cont" = "n" ]; then
+    return 1;
+  fi
+
+  p_yellow "[CUSTOMIZE] Terminator"
   mkdir ~/.config/terminator/
   cp terminator/config ~/.config/terminator/config
   p_green "[CUSTOMIZE] Terminator: DONE\!"
 
-  p_red "[CUSTOMIZE] Git"
+  read -p "Do you wanna continue? [y/n] " cont
+  if [ "$cont" = "n" ]; then
+    return 1;
+  fi
+
+  p_yellow "[CUSTOMIZE] Git"
   cp git/.gitconfig ~/
   if [ $# -ge 2 ] && [ ! -z "$1" ] && [ ! -z "$2" ]; then
     ssh-keygen -t rsa -b 4096 -C "$1" -N "$2" -f ~/.ssh/id_rsa -q
     ssh-add ~/.ssh/id_rsa.pub
-    p_red "[CUSTOMIZE] Git: Now you've to copy the text in the openned file and paste in your Github\!"
+    p_yellow "[CUSTOMIZE] Git: Now you've to copy the text in the openned file and paste in your Github\!"
     if ! subl_loc="$(type -p "$subl")" || [ -z "$subl_loc" ]; then
       gedit ~/.ssh/id_rsa
     else
@@ -46,7 +56,12 @@ function customize() {
   fi
   p_green "[CUSTOMIZE] Git: DONE\!"
 
-  p_red "[CUSTOMIZE] NGINX"
+  read -p "Do you wanna continue? [y/n] " cont
+  if [ "$cont" = "n" ]; then
+    return 1;
+  fi
+
+  p_yellow "[CUSTOMIZE] NGINX"
   sed -i "s/USER/${USER}/" nginx/NGINX
   mkdir ~/Desktop/NGINX/
   sudo cp nginx/NGINX /etc/nginx/sites-enabled/NGINX
@@ -54,12 +69,17 @@ function customize() {
   sudo service nginx start
   p_green "[CUSTOMIZE] NGINX: DONE\!"
 
-  p_red "[CUSTOMIZE] PHP"
+  read -p "Do you wanna continue? [y/n] " cont
+  if [ "$cont" = "n" ]; then
+    return 1;
+  fi
+
+  p_yellow "[CUSTOMIZE] PHP"
   sudo sed -i "s/;cgi.fix_pathinfo=1/cgi.fix_pathinfo=0/" /etc/php/7.0/fpm/php.ini
   sudo systemctl restart php7.0-fpm
   p_green "[CUSTOMIZE] PHP: DONE\!"
 
-  # p_red "[CUSTOMIZE] Sublime Text 3"
+  # p_yellow "[CUSTOMIZE] Sublime Text 3"
   # cp st3/Package\ Control.sublime-settings ~/.config/sublime-text-3/Packages/User/Package\ Control.sublime-settings
   # cp st3/Base\ File.sublime-settings ~/.config/sublime-text-3/Packages/User/Base\ File.sublime-settings
   # cp st3/Preferences.sublime-settings ~/.config/sublime-text-3/Packages/User/Preferences.sublime-settings
@@ -70,7 +90,12 @@ function customize() {
   # cd
   # p_green "[CUSTOMIZE] Sublime Text 3: DONE\!"
 
-  p_red "[CUSTOMIZE] VS Code"
+  read -p "Do you wanna continue? [y/n] " cont
+  if [ "$cont" = "n" ]; then
+    return 1;
+  fi
+
+  p_yellow "[CUSTOMIZE] VS Code"
   code --install-extension formulahendry.code-runner
   code --install-extension ms-vscode.sublime-keybindings
   code --install-extension christian-kohler.npm-intellisense
@@ -91,10 +116,26 @@ function customize() {
   code --install-extension Equinusocio.vsc-material-theme
   code --install-extension PKief.material-icon-theme
   code --install-extension shakram02.bash-beautify
+  code --install-extension dkundel.vscode-new-file
+  code --install-extension formulahendry.auto-rename-tag
+  code --install-extension JerryHong.autofilename
+  code --install-extension msjsdiag.debugger-for-chrome
+  code --install-extension nwhatt.chai-snippets
+  code --install-extension spoonscen.es6-mocha-snippets
+  code --install-extension codezombiech.gitignore
+  code --install-extension donjayamanne.githistory
+  code --install-extension yzhang.markdown-all-in-one
+  code --install-extension WallabyJs.quokka-vscode
+  code --install-extension just4developments.testing-api
   sudo cp vscode/settings.js cd ~/.config/Code/User/settings.js
   p_green "[CUSTOMIZE] VS Code: DONE\!"
 
-  p_red "[CUSTOMIZE] Desktop Folder"
+  read -p "Do you wanna continue? [y/n] " cont
+  if [ "$cont" = "n" ]; then
+    return 1;
+  fi
+
+  p_yellow "[CUSTOMIZE] Desktop Folder"
   mv Área\ de\ Trabalho/ Desktop/
   sed -i "s/Área de Trabalho/Desktop/" ~/.config/user-dirs.dirs
   p_green "[CUSTOMIZE] Desktop Folder: DONE\!"
