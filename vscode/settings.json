@@ -1,11 +1,12 @@
 {
-    "workbench.colorTheme": "Material Theme",
+    "sublimeTextKeymap.promptV3Features": true,
+    "editor.multiCursorModifier": "ctrlCmd",
+    "editor.snippetSuggestions": "top",
+    "editor.formatOnPaste": true,
+    "workbench.iconTheme": "material-icon-theme",
     "materialTheme.cache.workbench.settings": {
         "themeColours": "Default"
     },
-    "workbench.iconTheme": "material-icon-theme",
-    "editor.fontFamily": "'Hack'",
-    "files.autoSave": "onFocusChange",
-    "editor.fontSize": 12,
+    "workbench.colorTheme": "Material Theme",
     "editor.tabSize": 2
 }
