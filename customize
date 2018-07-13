@@ -96,37 +96,48 @@ function customize() {
   fi
 
   p_yellow "[CUSTOMIZE] VS Code"
-  code --install-extension formulahendry.code-runner
-  code --install-extension ms-vscode.sublime-keybindings
-  code --install-extension christian-kohler.npm-intellisense
-  code --install-extension Zignd.html-css-class-completion
-  code --install-extension christian-kohler.path-intellisense
-  code --install-extension eg2.vscode-npm-script
-  code --install-extension dbaeumer.vscode-eslint
-  code --install-extension DavidAnson.vscode-markdownlint
-  code --install-extension HookyQR.beautify
-  code --install-extension octref.vetur
-  code --install-extension hollowtree.vue-snippets
-  code --install-extension xabikos.javascriptsnippets
-  code --install-extension abusaidm.html-snippets
-  code --install-extension pranaygp.vscode-css-peek
-  code --install-extension bierner.color-info
-  code --install-extension cssho.vscode-svgviewer
-  code --install-extension wmaurer.change-case
-  code --install-extension Equinusocio.vsc-material-theme
-  code --install-extension PKief.material-icon-theme
-  code --install-extension shakram02.bash-beautify
-  code --install-extension dkundel.vscode-new-file
-  code --install-extension formulahendry.auto-rename-tag
   code --install-extension JerryHong.autofilename
-  code --install-extension msjsdiag.debugger-for-chrome
-  code --install-extension nwhatt.chai-snippets
-  code --install-extension spoonscen.es6-mocha-snippets
+  code --install-extension Zignd.html-css-class-completion
+  code --install-extension abusaidm.html-snippets
+  code --install-extension bierner.color-info
+  code --install-extension christian-kohler.npm-intellisense
+  code --install-extension christian-kohler.path-intellisense
   code --install-extension codezombiech.gitignore
+  code --install-extension cssho.vscode-svgviewer
+  code --install-extension dariofuzinato.vue-peek
+  code --install-extension DavidAnson.vscode-markdownlint
+  code --install-extension dbaeumer.vscode-eslint
+  code --install-extension dkundel.vscode-new-file
   code --install-extension donjayamanne.githistory
-  code --install-extension yzhang.markdown-all-in-one
-  code --install-extension WallabyJs.quokka-vscode
+  code --install-extension ecmel.vscode-html-css
+  code --install-extension eg2.vscode-npm-script
+  code --install-extension Equinusocio.vsc-material-theme
+  code --install-extension felixfbecker.php-debug
+  code --install-extension felixfbecker.php-intellisense
+  code --install-extension felixfbecker.php-pack
+  code --install-extension formulahendry.auto-close-tag
+  code --install-extension formulahendry.auto-rename-tag
+  code --install-extension formulahendry.code-runner
+  code --install-extension guillaumedoutriaux.name-that-color
+  code --install-extension hollowtree.vue-snippets
+  code --install-extension HookyQR.beautify
   code --install-extension just4developments.testing-api
+  code --install-extension mrmlnc.vscode-attrs-sorter
+  code --install-extension MS-CEINTL.vscode-language-pack-pt-BR
+  code --install-extension ms-vscode.sublime-keybindings
+  code --install-extension msjsdiag.debugger-for-chrome
+  code --install-extension neilbrayfield.php-docblocker
+  code --install-extension nwhatt.chai-snippets
+  code --install-extension octref.vetur
+  code --install-extension PKief.material-icon-theme
+  code --install-extension pranaygp.vscode-css-peek
+  code --install-extension shakram02.bash-beautify
+  code --install-extension shinnn.stylelint
+  code --install-extension tungvn.wordpress-snippet
+  code --install-extension WallabyJs.quokka-vscode
+  code --install-extension wmaurer.change-case
+  code --install-extension xabikos.JavaScriptSnippets
+  code --install-extension yzhang.markdown-all-in-one
   sudo cp vscode/settings.js cd ~/.config/Code/User/settings.js
   p_green "[CUSTOMIZE] VS Code: DONE\!"
 
